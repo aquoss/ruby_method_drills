@@ -1,22 +1,35 @@
 #########################
 #### USING ARGUMENTS ####
 #########################
-#say_hello
-  # returns 'hello'
+def say_hello
+  'hello'
+end
 
-#echo
-  # echoes (returns) the input string
+def echo(str)
+  str
+end
 
-#get_fruit
+
+def get_fruit(id=0)
+  if id==0
+    "apple"
+  else
+    "pear"
+  end
+end
+
   # returns the fruit that corresponds to the given id
   # does not raise an error when the id argument is missing
   # defaults to 'apple' when no id argument is supplied
 
-#how_many_args
+def how_many_args(*p)
+  p.count
+end
+
   # accepts any number of arguments without error
   # returns the total number of arguments passed to the function
 
-#find_answer
+# def find_answer
   # returns the value associated with the 'answer' keyword argument
   # returns nil if it cannot find the 'answer' keyword argument
   # raises an error when given non-keyword arguments
@@ -24,15 +37,21 @@
 ##############################
 #### MANIPULATING STRINGS ####
 ##############################
-#first_char
+def first_char(str)
+  str.split("")[0].downcase
+end
   # returns the first letter of the given word
   # lowercases the first letter of the given word
 
-#polly_wanna
+def polly_wanna(word)
+  word*3
+end
   # includes the given word in its return value
   # repeats the given word 3 times
 
-#count_chars
+def count_chars(str)
+  str.split("").length
+end
   # returns the number of characters in the given string
 
 #yell
@@ -78,13 +97,21 @@
 ###########################
 #### LOOPS & ITERATORS ####
 ###########################
-#count_spaces
+def count_spaces(str)
+  str.count(' ')
+end
   # counts the spaces in a given string
 
-#string_lengths
+def string_lengths(arr)
+  arr = arr.map do |str|
+    str.split("").length
+  end
+end
   # converts a given list of strings to a list of string lengths
 
-#remove_falsy_values
+def remove_falsy_values(arr)
+  arr.select{|item| !!item}
+end
   # filters out falsy values from the input array
 
 #exclude_last
@@ -115,18 +142,45 @@
 ##############################
 #### MANIPULATING NUMBERS ####
 ##############################
-#count_to
-  # returns an array containing every integer from 0 to the input n
-  # rounds off decimals
 
-#is_integer?
+def count_to(n)
+  n.to_i!
+  if n >= 0
+    0.upto(n).to_a
+  else
+    0.downto(n).to_a
+  end
+end
+
+# returns an array containing every integer from 0 to the input n
+# rounds off decimals
+
+
+def is_integer?(num)
+  num.class == Fixnum || num.class == Bignum ||
+    ( num.is_a?(Float) && !num.nan? && num.to_i == num )
+end
   # returns true for Fixnums and Bignums (whole number or 'integer' types)
   # returns true for Floats (decimals) equal to integers
   # returns false for non-integer decimals
   # returns false for Float::NAN
   # returns false for non-numbers
 
-#is_prime?
+
+def is_prime?(num)
+  if !is_integer?(num) || num <= 1
+    false
+  elsif num <= 1
+    false
+  else
+    (2..(num-1)).each do |n|
+      if num % n == 0
+        return false
+      end
+    end
+    true
+  end
+end
   # returns false for non-integer decimals
   # returns false for numbers less than or equal to 1
   # returns false for numbers divisible by anything but 1 and themselves
@@ -148,16 +202,41 @@
 ##############################
 #### MANIPULATING OBJECTS ####
 ##############################
-#character_count
+
+def character_count(str)
+  char_count = {}
+  str.downcase.each_char do |char|
+    if char_count[char] = nil
+      char_count[char] = 1
+    else
+      char_count[char] += 1
+    end
+  end
+  char_counts
+end
   # returns a hash
   # counts how many times each character appears in the input string
   # ignores case
 
-#word_count
+def word_count(str)
+  word_counts = {}
+  str.split(" ").downcase.each do |word|
+    if word_counts[word] = nil
+      word_counts[word] = 1
+    else
+      word_counts[word] += 1
+    end
+  end
+  word_counts
+end
   # returns a hash
   # counts how many times a word appears in the input string
   # ignores case
   # ignores characters that are not in the sequence a-z
 
-#most_frequent_word
+
+def most_frequent_word(str)
+  word_counts = word_count(str)
+  word_counts.empty? ? nil : word_counts.invert.max[1]
+end
   # finds the word in the input string that appears with the most frequency
